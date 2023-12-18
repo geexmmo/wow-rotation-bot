@@ -114,6 +114,12 @@ talents = {
         {'value': 0,'pixel': 49,'match': (10, 0, 255),'assign': 1},
     "PowerStrike":
         {'value': 0,'pixel': 50,'match': (255, 10, 0),'assign': 1},
+    "FuriousBloodthirst":
+        {'value': 0,'pixel': 51,'match': (10, 255, 0),'assign': 1},
+    "DancingBlades":
+        {'value': 0,'pixel': 53,'match': (10, 0, 255),'assign': 1},
+    "RecklessAbandon":
+        {'value': 0,'pixel': 54,'match': (255, 10, 0),'assign': 1},
     }
     
 def rotation(talents):
@@ -123,8 +129,8 @@ def rotation(talents):
             elif  talents['StormBolt']['value']: return 'k'
         # elif talents["Charge"]['value']: return 'f'
         elif talents["Recklesness"]['value'] and talents['EnragedBuff']['value'] and not talents['RecklesnessBuff']['value']: return 'r'
-        elif talents["SophicDevotionBuff"]['value'] and talents['EnragedBuff']['value'] and not talents["AvatarBuff"]['value'] and talents["Avatar"]['value'] and talents["EnemyHPCutoff"]['value'] >= 2000000 \
-                and talents['EnemyHP%']['value'] >= 50: return 'v'
+        # elif talents["SophicDevotionBuff"]['value'] and talents['EnragedBuff']['value'] and not talents["AvatarBuff"]['value'] and talents["Avatar"]['value'] and talents["EnemyHPCutoff"]['value'] >= 2000000 \
+        #         and talents['EnemyHP%']['value'] >= 30 and not (talents["DancingBlades"]['value'] or talents["OdinsFury"]['value']): return 'v'
         elif talents["MyHP"]['value'] <= 60 and talents["VictoryRush"]['value']: return 'e'
         elif talents["MyHP"]['value'] <= 30 and talents["EnragedRegen"]['value']: return 't'
         elif talents["GroupLowHP"]['value'] and talents["Rally"]['value']: return 'x'
@@ -132,26 +138,30 @@ def rotation(talents):
         elif talents["AOECount"]['value'] >=3:
             if talents["Ravager"]['value'] and talents["EnemyHPCutoff"]['value'] >= 1000000 and talents['EnemyHP%']['value'] >= 40 and not talents['ISmoving']['value']:
                 return 'z'
-            if talents["Spear"]['value'] and talents['TalentSpear']['value'] and talents['RecklesnessBuff']['value'] \
-                and talents['EnragedBuff']['value'] and talents["EnemyHPCutoff"]['value'] >= 2000000 \
-                and talents['EnemyHP%']['value'] >= 50 and not talents['ISmoving']['value']: return 'j'
-            if talents["DragonRoar"]['value'] and talents['TalentDragonRoar']['value'] and talents['RecklesnessBuff']['value'] \
+            # elif talents["Spear"]['value'] and talents['TalentSpear']['value'] and talents['RecklesnessBuff']['value'] \
+            #     and talents['EnragedBuff']['value'] and talents["EnemyHPCutoff"]['value'] >= 2000000 \
+            #     and talents['EnemyHP%']['value'] >= 50 and not talents['ISmoving']['value']: return 'j'
+            elif talents["DragonRoar"]['value'] and talents['TalentDragonRoar']['value'] and talents['RecklesnessBuff']['value'] \
                 and talents['EnragedBuff']['value'] and talents["EnemyHPCutoff"]['value'] >= 2000000 \
                 and talents['EnemyHP%']['value'] >= 30 and not talents['ISmoving']['value']: return 'j'
         match talents["Rage%"]['value']:
-            case 80: #>=90
-                if talents["Rampage"]['value']: return '3'
+            case 80: #>=80
+                if talents["Bloodthirst"]['value'] and talents["RecklessAbandon"]['value']: return '1'
+                elif talents["Rampage"]['value']: return '3'
             case _: #>=30
                 if talents["EnragedRegenBuff"]['value'] and talents["Bloodthirst"]['value']: return '1'
-                elif talents["MercilessAssault"]['value'] and talents["Bloodthirst"]['value']: return '1'
-                elif talents["OdinsFury"]['value']: return '4'
-                # elif talents["PowerStrike"]['value']: return '6'
-                elif talents["Ravager"]['value'] and talents["EnemyHPCutoff"]['value'] >= 1000000 and talents['EnemyHP%']['value'] >= 30 and not talents['ISmoving']['value']: return 'z'
-                elif talents["Spear"]['value'] and talents['TalentSpear']['value'] and talents['RecklesnessBuff']['value'] and talents['EnragedBuff']['value'] \
-                    and talents["EnemyHPCutoff"]['value'] >= 2000000 and not talents['ISmoving']['value']: return 'j'
-                elif talents["DragonRoar"]['value'] and talents['TalentDragonRoar']['value'] and talents['RecklesnessBuff']['value'] and talents['EnragedBuff']['value'] \
+                # elif talents["MercilessAssault"]['value'] and talents["Bloodthirst"]['value']: return '1' # season 2 tierset buff
+                elif talents["Bloodthirst"]['value'] and talents["RecklessAbandon"]['value']: return '1'
+                elif talents["Bloodthirst"]['value'] and talents["FuriousBloodthirst"]['value']: return '1'
+                elif talents["Avatar"]['value'] and not talents["OdinsFury"]['value'] and not talents["DancingBlades"]['value'] and not talents['ISmoving']['value']: return 'v'
+                elif talents["OdinsFury"]['value'] and not talents['ISmoving']['value']: return '4'
+                # elif talents["Ravager"]['value'] and talents["EnemyHPCutoff"]['value'] >= 1000000 and talents['EnemyHP%']['value'] >= 30 and not talents['ISmoving']['value']: return 'z'
+                # elif talents["Spear"]['value'] and talents['TalentSpear']['value'] and talents['RecklesnessBuff']['value'] and talents['EnragedBuff']['value'] \
+                #     and talents["EnemyHPCutoff"]['value'] >= 2000000 and not talents['ISmoving']['value']: return 'j'
+                elif talents["DragonRoar"]['value'] and talents['TalentDragonRoar']['value'] and talents['EnragedBuff']['value'] \
                     and talents["EnemyHPCutoff"]['value'] >= 2000000 and not talents['ISmoving']['value']: return 'j'
                 elif talents["Execute"]['value']: return 'q'
-                elif talents["Onslaught"]['value'] and talents['EnragedBuff']['value']: return '5'
-                elif talents["RagingBlow"]['value']: return '4'
+                elif talents["PowerStrike"]['value']: return '6'
+                # elif talents["Onslaught"]['value'] and talents['EnragedBuff']['value']: return '5'
+                # elif talents["RagingBlow"]['value']: return '4'
                 elif talents["Bloodthirst"]['value']: return '1'

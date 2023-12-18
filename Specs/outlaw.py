@@ -150,36 +150,38 @@ talents = {
     }
     
 def rotation(talents):
+    # print('fuck', talents["TrinketReady"]['value'], (talents["AOECount"]['value'] >= 5 or (talents["EnemyHP%"]['value'] >= 10 and talents["EnemyHPCutoff"]['value'] >= 2000000 and SpecialStealhState)))
     rand = random.randint(0,3)
     SpecialStealhState = 1 if talents["SubterfugeB"]['value'] == 1 or talents["StealthB"]['value'] or talents["ShadowDanceB"]['value'] or talents["VanishB"]['value'] else 0
     if talents["CanStealth"]['value'] and not talents["VanishB"]['value']:
         if talents["BladeFlurry"]['value'] and talents["BladeFlurryB"]['value'] != 1: return('q')
-        elif talents["AdrenalinRush"]['value'] and not SpecialStealhState: return('v')
-        elif talents["RollTheBones"]['value'] and talents["RollTheBonesB"]['value'] <=1 or (talents["RollTheBonesBonus"]['value'] and talents["RollTheBonesB"]['value'] <=2): return('t')
-        elif talents["CanStealth"]['value'] and not SpecialStealhState: 
-            return('x')
+        elif talents["AdrenalinRush"]['value']: return('v')
+        elif talents["RollTheBones"]['value'] and (talents["RollTheBonesBonus"]['value'] and talents["RollTheBonesB"]['value'] <=2): return('t')
+        elif talents["SliceAndDice"]['value'] and talents["SliceAndDiceB"]['value'] != 1 and talents["CP"]['value'] >=5: return('5')
+        elif talents["CanStealth"]['value'] and not SpecialStealhState: return('x')
     elif talents["canattack"]['value'] and (not talents['Sap']['value'] or not talents['iscasting']['value']):
         # control and healz
         if talents["Kick"]['value'] and talents["EnemyCasting"]['value'] and not talents['ISmoving']['value']: return('l')
         elif talents["Shiv"]['value'] and talents["ENRAGED"]['value']: return('k')
         elif talents["Vial"]['value'] and talents["MyHP"]['value'] <= 50: return('z')
-        elif talents["TrinketReady"]['value'] and talents["MyHP"]['value'] <= 20: return('sft4') #throw trinket on low hp targets
-        # elif talents["TrinketReady"]['value'] and talents["AOECount"]['value'] >= 5 and not talents["BetweenTheEyesHold"]['value'] and not SpecialStealhState: return('sft4') #throw trinket on low hp targets
-        # elif talents["TrinketReady"]['value'] and (talents["EnemyHP%"]['value'] <= 10 or talents["ShadowDanceB"]['value']): return('sft4')
+        # elif talents["TrinketReady"]['value'] and talents["MyHP"]['value'] <= 20: return('sft4') #throw trinket on low hp targets
+        elif talents["TrinketReady"]['value'] and (talents["AOECount"]['value'] >= 5 or (talents["EnemyHP%"]['value'] >= 10 and talents["EnemyHPCutoff"]['value'] >= 2000000 and SpecialStealhState)): return('sft4') #throw trinket on low hp targets
+        # elif talents["TrinketReady"]['value'] and (talents["EnemyHP%"]['value'] >= 10 or talents["ShadowDanceB"]['value']): return('sft4')
         # combat 2
         elif talents["Vanish"]['value'] and talents["BetweenTheEyes"]['value'] and not SpecialStealhState and talents["CP"]['value'] >= 7: return('c')
         elif talents["ShadowDance"]['value'] and talents["BetweenTheEyes"]['value'] and not SpecialStealhState and talents["CP"]['value'] >= 7: return('r')
-        elif talents["SliceAndDice"]['value'] and talents["SliceAndDiceB"]['value'] != 1 and talents["AOECount"]['value'] <= 5 \
+        elif talents["SliceAndDice"]['value'] and talents["SliceAndDiceB"]['value'] != 1 \
             and not SpecialStealhState and talents["CP"]['value'] >= 5: return('5')
         match talents["CP"]['value']:
             case 0|2|3|4|5:
                 if talents["BetweenTheEyes"]['value'] and SpecialStealhState and talents["CP"]['value'] >= 5: return('3')
                 elif talents["AdrenalinRush"]['value'] and (talents["BurstSoon"]['value'] or talents["Energy"]['value'] <=50 ): return('v')
                 elif talents["GhostlyStrike"]['value'] and talents["EnemyHP%"]['value'] >= 10 and talents["EnemyHPCutoff"]['value'] >= 2000000: return('j') #and talents["BurstSoon"]['value']
-                elif talents["RollTheBones"]['value'] and (not talents["RollTheBonesB"]['value'] or talents["RollTheBonesBonus"]['value']) \
+                elif talents["RollTheBones"]['value'] and (talents["RollTheBonesBonus"]['value'] and talents["RollTheBonesB"]['value'] <=2) \
                     and not SpecialStealhState: return('t')
                 # elif talents["Ambush"]['value'] and talents["CP"]['value'] == 2 and talents["ShadowDanceB"]['value']: return('4')
                 elif talents["BladeFlurry"]['value'] and talents["AOECount"]['value'] >= 2 and not SpecialStealhState: return('q')
+                elif talents["BladeFlurry"]['value'] and talents["SliceAndDiceB"]['value'] and not talents["BladeFlurryB"]['value']: return('q')
                 elif talents["BladeRush"]['value'] and talents["Energy"]['value'] <= 60 and not SpecialStealhState: return('6')
                 # elif talents["Ambush"]['value'] and talents["BetweenTheEyesHold"]['value']: return('4')
                 elif talents["Energy"]['value'] >= 80 or rand == 1:

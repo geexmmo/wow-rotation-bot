@@ -73,7 +73,10 @@ talents = {
     "SliceAndDice":
         {'value': 0,'pixel': 16,'match': (10, 255, 0),'assign': 1},
     "AdrenalinRush":
-        {'value': 0,'pixel': 17,'match': (10, 0, 255),'assign': 1},
+        # {'value': 0,'pixel': 17,'match': (10, 0, 255),'assign': 1},
+        {'value': 0,'pixel': 17, 'multi': [
+        {'match': (10, 0, 255),'assign': 1},
+        {'match': (20, 0, 255),'assign': 'soon'}]},
     "BetweenTheEyes":
         {'value': 0,'pixel': 18,'match': (255, 10, 0),'assign': 1},
     "Vanish":
@@ -116,7 +119,8 @@ talents = {
         # {'value': 0,'pixel': 38,'match': (255, 10, 0),'assign': 1},
         {'value': 0,'pixel': 38, 'multi': [
         {'match': (255, 10, 0),'assign': 1},
-        {'match': (255, 20, 0),'assign': 2}]},
+        {'match': (255, 20, 0),'assign': 2},
+        {'match': (255, 30, 0),'assign': 3}]},
     "Shiv":
         {'value': 0,'pixel': 39,'match': (10, 255, 0),'assign': 1},
     "VanishB":
@@ -150,12 +154,13 @@ talents = {
     }
     
 def rotation(talents):
+    print('RTB: ', talents["RollTheBonesB"]['value'])
     # print('fuck', talents["TrinketReady"]['value'], (talents["AOECount"]['value'] >= 5 or (talents["EnemyHP%"]['value'] >= 10 and talents["EnemyHPCutoff"]['value'] >= 2000000 and SpecialStealhState)))
     rand = random.randint(0,3)
     SpecialStealhState = 1 if talents["SubterfugeB"]['value'] == 1 or talents["StealthB"]['value'] or talents["ShadowDanceB"]['value'] or talents["VanishB"]['value'] else 0
     if talents["CanStealth"]['value'] and not talents["VanishB"]['value']:
         if talents["BladeFlurry"]['value'] and talents["BladeFlurryB"]['value'] != 1: return('q')
-        elif talents["AdrenalinRush"]['value']: return('v')
+        elif talents["AdrenalinRush"]['value'] == 1: return('v')
         elif talents["RollTheBones"]['value'] and (talents["RollTheBonesBonus"]['value'] and talents["RollTheBonesB"]['value'] <=2): return('t')
         elif talents["SliceAndDice"]['value'] and talents["SliceAndDiceB"]['value'] != 1 and talents["CP"]['value'] >=5: return('5')
         elif talents["CanStealth"]['value'] and not SpecialStealhState: return('x')
@@ -175,10 +180,11 @@ def rotation(talents):
         match talents["CP"]['value']:
             case 0|2|3|4|5:
                 if talents["BetweenTheEyes"]['value'] and SpecialStealhState and talents["CP"]['value'] >= 5: return('3')
-                elif talents["AdrenalinRush"]['value'] and (talents["BurstSoon"]['value'] or talents["Energy"]['value'] <=50 ): return('v')
+                elif talents["AdrenalinRush"]['value'] == 1 and (talents["BurstSoon"]['value'] or talents["Energy"]['value'] <=50 ): return('v')
                 elif talents["GhostlyStrike"]['value'] and talents["EnemyHP%"]['value'] >= 10 and talents["EnemyHPCutoff"]['value'] >= 2000000: return('j') #and talents["BurstSoon"]['value']
-                elif talents["RollTheBones"]['value'] and (talents["RollTheBonesBonus"]['value'] and talents["RollTheBonesB"]['value'] <=2) \
-                    and not SpecialStealhState: return('t')
+                # elif talents["RollTheBones"]['value'] and (talents["RollTheBonesBonus"]['value'] and talents["RollTheBonesB"]['value'] <=2) \
+                #     and not SpecialStealhState: return('t')
+                # elif talents["RollTheBones"]['value'] and talents["AdrenalinRush"]['value'] == 0 and talents["RollTheBonesB"]['value'] <=2 and not SpecialStealhState: return('t')
                 # elif talents["Ambush"]['value'] and talents["CP"]['value'] == 2 and talents["ShadowDanceB"]['value']: return('4')
                 elif talents["BladeFlurry"]['value'] and talents["AOECount"]['value'] >= 2 and not SpecialStealhState: return('q')
                 elif talents["BladeFlurry"]['value'] and talents["SliceAndDiceB"]['value'] and not talents["BladeFlurryB"]['value']: return('q')

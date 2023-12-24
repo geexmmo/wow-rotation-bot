@@ -146,22 +146,23 @@ def rotation(talents):
                 and talents['EnemyHP%']['value'] >= 30 and not talents['ISmoving']['value']: return 'j'
         match talents["Rage%"]['value']:
             case 80: #>=80
-                if talents["Bloodthirst"]['value'] and talents["RecklessAbandon"]['value']: return '1'
+                if talents["OdinsFury"]['value'] and not talents['ISmoving']['value']: return '4'
+                elif talents["Bloodthirst"]['value'] and talents["RecklessAbandon"]['value']: return '1'
                 elif talents["Rampage"]['value']: return '3'
             case _: #>=30
-                if talents["EnragedRegenBuff"]['value'] and talents["Bloodthirst"]['value']: return '1'
+                if talents["OdinsFury"]['value'] and not talents['ISmoving']['value']: return '4'
+                elif talents["Avatar"]['value'] and not talents["OdinsFury"]['value'] and not talents["DancingBlades"]['value'] and not talents['ISmoving']['value']: return 'v'
+                elif talents["EnragedRegenBuff"]['value'] and talents["Bloodthirst"]['value']: return '1'
                 # elif talents["MercilessAssault"]['value'] and talents["Bloodthirst"]['value']: return '1' # season 2 tierset buff
                 elif talents["Bloodthirst"]['value'] and talents["RecklessAbandon"]['value']: return '1'
                 elif talents["Bloodthirst"]['value'] and talents["FuriousBloodthirst"]['value']: return '1'
-                elif talents["Avatar"]['value'] and not talents["OdinsFury"]['value'] and not talents["DancingBlades"]['value'] and not talents['ISmoving']['value']: return 'v'
-                elif talents["OdinsFury"]['value'] and not talents['ISmoving']['value']: return '4'
                 # elif talents["Ravager"]['value'] and talents["EnemyHPCutoff"]['value'] >= 1000000 and talents['EnemyHP%']['value'] >= 30 and not talents['ISmoving']['value']: return 'z'
-                # elif talents["Spear"]['value'] and talents['TalentSpear']['value'] and talents['RecklesnessBuff']['value'] and talents['EnragedBuff']['value'] \
-                #     and talents["EnemyHPCutoff"]['value'] >= 2000000 and not talents['ISmoving']['value']: return 'j'
+                elif talents["Spear"]['value'] and talents['TalentSpear']['value'] and talents['RecklesnessBuff']['value'] and talents['EnragedBuff']['value'] \
+                    and talents["EnemyHPCutoff"]['value'] >= 2000000 and not talents['ISmoving']['value']: return 'j'
                 elif talents["DragonRoar"]['value'] and talents['TalentDragonRoar']['value'] and talents['EnragedBuff']['value'] \
                     and talents["EnemyHPCutoff"]['value'] >= 2000000 and not talents['ISmoving']['value']: return 'j'
                 elif talents["Execute"]['value']: return 'q'
+                elif talents["Bloodthirst"]['value']: return '1'
                 elif talents["PowerStrike"]['value']: return '6'
                 # elif talents["Onslaught"]['value'] and talents['EnragedBuff']['value']: return '5'
                 # elif talents["RagingBlow"]['value']: return '4'
-                elif talents["Bloodthirst"]['value']: return '1'
